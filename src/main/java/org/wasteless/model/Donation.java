@@ -13,13 +13,15 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String status;
     private Long donorId;
     private Timestamp donationDt;
     private Long volunteerId;
 
-    public Donation(Long id, String name, Long donorId, Timestamp donationDt, Long volunteerId) {
+    public Donation(Long id, String name, String status,Long donorId, Timestamp donationDt, Long volunteerId) {
         this.id = id;
         this.name = name;
+        this.status = status;
         this.donorId = donorId;
         this.donationDt = donationDt;
         this.volunteerId = volunteerId;
@@ -42,6 +44,14 @@ public class Donation {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getDonorId() {
