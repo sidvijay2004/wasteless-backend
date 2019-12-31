@@ -25,6 +25,9 @@ public class Donation {
         this.volunteerId = volunteerId;
     }
 
+    public Donation(){
+        super();
+    }
     public Long getId() {
         return id;
     }

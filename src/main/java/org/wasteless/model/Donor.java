@@ -39,6 +39,10 @@ public class Donor {
                 '}';
     }
 
+
+    public Donor(){
+        super();
+    }
     public Donor(Long id, String name, String email, String password, String phone, String address1, String address2, String city, String state, String zipcode, String country) {
         this.id = id;
         this.name = name;
