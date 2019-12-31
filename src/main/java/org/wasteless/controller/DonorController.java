@@ -35,7 +35,15 @@ public class DonorController {
         return donorRepository.findById(donorId)
                 .map(donor -> {
                     donor.setName(donorRequest.getName());
+                    donor.setEmail(donorRequest.getEmail());
+                    donor.setPassword(donorRequest.getPassword());
+                    donor.setPhone(donorRequest.getPhone());
                     donor.setAddress1(donorRequest.getAddress1());
+                    donor.setAddress2(donorRequest.getAddress2());
+                    donor.setCity(donorRequest.getCity());
+                    donor.setState(donorRequest.getState());
+                    donor.setZipcode(donorRequest.getZipcode());
+                    donor.setCountry(donorRequest.getCountry());
                     return donorRepository.save(donor);
                 }).orElseThrow(() -> new ResourceNotFoundException("Donor not found with id " + donorId));
     }
