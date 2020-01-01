@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Donor {
+public class Participant {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,7 +24,7 @@ public class Donor {
 
     @Override
     public String toString() {
-        return "Donor{" +
+        return "Participant{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
@@ -40,10 +40,10 @@ public class Donor {
     }
 
 
-    public Donor(){
+    public Participant(){
         super();
     }
-    public Donor(Long id, String name, String email, String password, String phone, String address1, String address2, String city, String state, String zipcode, String country) {
+    public Participant(Long id, String name, String email, String password, String phone, String address1, String address2, String city, String state, String zipcode, String country) {
         this.id = id;
         this.name = name;
         this.email = email;
