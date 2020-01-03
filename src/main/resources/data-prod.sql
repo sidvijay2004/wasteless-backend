@@ -1,4 +1,4 @@
-CREATE TABLE donor(
+CREATE TABLE participant(
    id serial PRIMARY KEY,
    name VARCHAR (50) NOT NULL,
    email VARCHAR (355) UNIQUE NOT NULL,
@@ -12,3 +12,15 @@ CREATE TABLE donor(
    country VARCHAR(100) NOT NULL,
    last_login TIMESTAMP
 );
+
+
+CREATE TABLE Donation(
+   id serial PRIMARY KEY,
+   name VARCHAR (50) NOT NULL,
+   DonorId integer NOT NULL,
+   Status VARCHAR(20) NOT NULL,
+   DonationDt TIMESTAMP NOT NULL,
+   volunteerId integer NOT NULL
+   );
+
+INSERT INTO participant(name,email,password,phone,address1,address2,city,state,zipcode,country) values('abc','abc@xyz.com','abc','98842','abc','abcxdde','buffalo','ny','14214','usa');
