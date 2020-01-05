@@ -13,6 +13,8 @@ CREATE TABLE participant(
    last_login TIMESTAMP
 );
 
+INSERT INTO participant(name,email,password,phone,address1,address2,city,state,zipcode,country) values('abc','abc@xyz.com','abc','98842','abc','abcxdde','buffalo','ny','14214','usa');
+
 
 CREATE TABLE Donation(
    id serial PRIMARY KEY,
@@ -22,5 +24,3 @@ CREATE TABLE Donation(
    DonationDt TIMESTAMP NOT NULL,
    volunteerId integer NOT NULL
    );
-
-INSERT INTO participant(name,email,password,phone,address1,address2,city,state,zipcode,country) values('abc','abc@xyz.com','abc','98842','abc','abcxdde','buffalo','ny','14214','usa');
