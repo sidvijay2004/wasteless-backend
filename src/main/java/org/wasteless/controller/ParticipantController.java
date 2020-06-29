@@ -10,6 +10,7 @@ import org.wasteless.exception.ResourceNotFoundException;
 import org.wasteless.model.Participant;
 import org.wasteless.repository.ParticipantRepository;
 
+import javax.servlet.http.Part;
 import javax.validation.Valid;
 
 @RestController
@@ -22,7 +23,6 @@ public class ParticipantController {
     public Page<Participant> getDonors(Pageable pageable) {
         return participantRepository.findAll(pageable);
     }
-
 
     @PostMapping("/donors")
     public Participant createDonor(@Valid @RequestBody Participant participant) {
@@ -57,4 +57,13 @@ public class ParticipantController {
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + donorId));
     }
+
+
+
+
+    @PostMapping("/donors/login")
+    public Participant loginDonor(@RequestBody Participant participant) {
+        return participantRepository.findByEmailAndPassword(participant.getEmail(), participant.getPassword());
+    }
+
 }

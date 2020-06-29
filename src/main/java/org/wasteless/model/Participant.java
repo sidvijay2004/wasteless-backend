@@ -24,7 +24,7 @@ public class Participant {
 
     @Override
     public String toString() {
-        return "Participant{" +
+        return "Donor{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +

@@ -34,7 +34,7 @@ public class DonationController {
                                    @Valid @RequestBody Donation donationRequest) {
         return donationRepository.findById(donationId)
                 .map(donation -> {
-                    donation.setName(donationRequest.getName());
+                    donation.setDescription(donationRequest.getDescription());
                     donation.setDonorId(donationRequest.getDonorId());
                     donation.setDonationDt(donationRequest.getDonationDt());
                     donation.setVolunteerId(donationRequest.getVolunteerId());
