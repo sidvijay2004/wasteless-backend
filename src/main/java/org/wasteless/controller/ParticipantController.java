@@ -12,6 +12,7 @@ import org.wasteless.repository.ParticipantRepository;
 
 import javax.servlet.http.Part;
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 public class ParticipantController {
@@ -63,7 +64,9 @@ public class ParticipantController {
 
     @PostMapping("/donors/login")
     public Participant loginDonor(@RequestBody Participant participant) {
+        System.out.println(new Date());
         return participantRepository.findByEmailAndPassword(participant.getEmail(), participant.getPassword());
     }
+
 
 }

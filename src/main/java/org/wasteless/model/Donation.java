@@ -9,21 +9,14 @@ public class Donation {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-<<<<<<< HEAD
     private String description;
     @Column(name = "donorid")
     private String donorId;
     @Column(name = "donorname")
     private String donorName;
     @Column(name = "donationdt")
-=======
-    private String name;
-    private String status;
-    private Long donorId;
->>>>>>> 7c665e871289852e5ad2708ae764e6fc3c110108
     private Timestamp donationDt;
 
-<<<<<<< HEAD
     public String getStatus() {
         return status;
     }
@@ -70,12 +63,6 @@ public class Donation {
     public Donation(Long id, String description, String donorId, String donorName, Timestamp donationDt, String status, String volunteerId, String donorPhone, String donorAddress1, String donorAddress2, String donorCity, String donorState, String donorCountry, String donorZipcode) {
         this.id = id;
         this.description = description;
-=======
-    public Donation(Long id, String name, String status,Long donorId, Timestamp donationDt, Long volunteerId) {
-        this.id = id;
-        this.name = name;
-        this.status = status;
->>>>>>> 7c665e871289852e5ad2708ae764e6fc3c110108
         this.donorId = donorId;
         this.donorName = donorName;
         this.donationDt = donationDt;
@@ -124,19 +111,7 @@ public class Donation {
         this.description = description;
     }
 
-<<<<<<< HEAD
     public String getDonorId() {
-=======
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public Long getDonorId() {
->>>>>>> 7c665e871289852e5ad2708ae764e6fc3c110108
         return donorId;
     }
 

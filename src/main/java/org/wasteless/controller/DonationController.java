@@ -11,6 +11,7 @@ import org.wasteless.model.Donation;
 import org.wasteless.repository.DonationRepository;
 
 import javax.validation.Valid;
+import java.util.Date;
 
 @RestController
 public class DonationController {
@@ -20,13 +21,25 @@ public class DonationController {
 
     @GetMapping("/donations")
     public Page<Donation> getDonations(Pageable pageable) {
-        return donationRepository.findAll(pageable);
+        System.out.println("Before find all Inside getDonations" + pageable);
+
+        Page<Donation> page = donationRepository.findAll(pageable);
+
+        System.out.println("After find all Inside getDonations" + page);
+
+        return page;
+//        return donationRepository.findAll(pageable);
     }
 
 
     @PostMapping("/donations")
     public Donation createDonation(@Valid @RequestBody Donation donation) {
-        return donationRepository.save(donation);
+        System.out.println("Inside Post Donation: " + new Date());
+        System.out.println("Before Save = " + donation);
+//        return donationRepository.save(donation);
+        Donation saveDonation = donationRepository.save(donation);
+        System.out.println("After Save = " + saveDonation);
+        return saveDonation;
     }
 
     @PutMapping("/donations/{donationId}")
@@ -50,5 +63,14 @@ public class DonationController {
                     donationRepository.delete(donation);
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));
+    }
+
+    @DeleteMapping("/donations/all")
+    public void deleteAll() {
+        System.out.println("Before Delete all");
+        donationRepository.deleteAll();
+        System.out.println(     "After Delete all");
+
+
     }
 }
