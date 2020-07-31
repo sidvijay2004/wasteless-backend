@@ -12,6 +12,7 @@ import org.wasteless.repository.DonationRepository;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.Optional;
 
 @RestController
 public class DonationController {
@@ -31,6 +32,20 @@ public class DonationController {
 //        return donationRepository.findAll(pageable);
     }
 
+    @GetMapping("/donation/{donationId}")
+    public Optional<Donation> getDonation(@PathVariable Long donationId) {
+        System.out.println("Inside get Donation Method: " + donationId);
+
+//        Donation donation = donationRepository.getOne(donationId);
+        Optional<Donation> donation = donationRepository.findById(donationId);
+
+        System.out.println("Printing Donation " + donation);
+
+
+        return donation;
+//        return donationRepository.findAll(pageable);
+    }
+
 
     @PostMapping("/donations")
     public Donation createDonation(@Valid @RequestBody Donation donation) {
@@ -45,6 +60,7 @@ public class DonationController {
     @PutMapping("/donations/{donationId}")
     public Donation updateDonation(@PathVariable Long donationId,
                                    @Valid @RequestBody Donation donationRequest) {
+            System.out.println("Inside Update Donation");
         return donationRepository.findById(donationId)
                 .map(donation -> {
                     donation.setDescription(donationRequest.getDescription());
