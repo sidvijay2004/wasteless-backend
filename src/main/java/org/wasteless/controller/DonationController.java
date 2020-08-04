@@ -32,6 +32,18 @@ public class DonationController {
 //        return donationRepository.findAll(pageable);
     }
 
+    @GetMapping("/mydonations/{donorId}")
+    public Page<Donation> myDonations(Pageable pageable, @PathVariable String donorId) {
+        System.out.println("Before find all Inside getDonations" + pageable);
+
+        Page<Donation> page = donationRepository.findByDonorId(pageable, donorId);
+
+        System.out.println("After find all Inside getDonations" + page);
+
+        return page;
+//        return donationRepository.findAll(pageable);
+    }
+
     @GetMapping("/donation/{donationId}")
     public Optional<Donation> getDonation(@PathVariable Long donationId) {
         System.out.println("Inside get Donation Method: " + donationId);
