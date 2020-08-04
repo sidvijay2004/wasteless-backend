@@ -49,18 +49,37 @@ public class DonationController {
     }
 
     @GetMapping("/pickupList/{donorId}")
-    public Page<Donation> pickupList(Pageable pageable, @PathVariable Long donorId) {
+    public Page<Donation> pickupList(Pageable pageable, @PathVariable String donorId, @RequestParam Optional<String>  city, @RequestParam Optional<String>  state, @RequestParam Optional<String>  zipcode) {
 
         System.out.println("Before pickup List");
 
-        Optional<Participant> participant = participantRepository.findById(donorId);
+//        Optional<Participant> participant = participantRepository.findById(donorId);
 
-        System.out.println("participant" + participant);
+//        System.out.println("participant" + participantRequest);
+        System.out.println("Before PickupList: city, state:  " + city + state);
 
+        Page<Donation> page;
+//        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, ""+ donorId, "Available", city, state);
+        if(zipcode.isPresent()){
+           page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcode(pageable, donorId, "Available", zipcode);
 
-        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, ""+ donorId, "Available", participant.get().getCity(), participant.get().getState());
+        }
+        else if (city.isPresent() && state.isPresent()){
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, donorId, "Available", city, state);
 
-        System.out.println("After pickuplist" + page);
+        }
+        else if (city.isPresent()){
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorCity(pageable, donorId, "Available", city);
+
+        }
+        else{
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorState(pageable, donorId, "Available", state);
+
+        }
+
+//        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusOrDonorCityOrDonorState(pageable, donorId, "Available", city, state);
+
+        System.out.println("After PickupList: city, state:  " + city + state);
 
 
         return page;
