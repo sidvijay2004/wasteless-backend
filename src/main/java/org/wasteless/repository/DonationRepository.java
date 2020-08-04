@@ -11,5 +11,7 @@ import java.util.List;
 
 public interface DonationRepository extends JpaRepository<Donation, Long> {
     Page<Donation> findByDonorId(Pageable pageable, String donorId);
+    Page<Donation> findByDonorIdNotAndStatusAndDonorCityAndDonorState(Pageable pageable, String donorId, String status, String donorCity, String donorState);
+    Page<Donation> findByDonorIdNot(Pageable pageable, String donorId);
 
 }

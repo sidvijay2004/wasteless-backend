@@ -8,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wasteless.exception.ResourceNotFoundException;
 import org.wasteless.model.Donation;
+import org.wasteless.model.Participant;
 import org.wasteless.repository.DonationRepository;
+import org.wasteless.repository.ParticipantRepository;
+
 
 import javax.validation.Valid;
 import java.util.Date;
@@ -16,6 +19,9 @@ import java.util.Optional;
 
 @RestController
 public class DonationController {
+
+    @Autowired
+    private ParticipantRepository participantRepository;
 
     @Autowired
     private DonationRepository donationRepository;
@@ -34,11 +40,28 @@ public class DonationController {
 
     @GetMapping("/mydonations/{donorId}")
     public Page<Donation> myDonations(Pageable pageable, @PathVariable String donorId) {
-        System.out.println("Before find all Inside getDonations" + pageable);
 
         Page<Donation> page = donationRepository.findByDonorId(pageable, donorId);
 
-        System.out.println("After find all Inside getDonations" + page);
+
+        return page;
+//        return donationRepository.findAll(pageable);
+    }
+
+    @GetMapping("/pickupList/{donorId}")
+    public Page<Donation> pickupList(Pageable pageable, @PathVariable Long donorId) {
+
+        System.out.println("Before pickup List");
+
+        Optional<Participant> participant = participantRepository.findById(donorId);
+
+        System.out.println("participant" + participant);
+
+
+        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, ""+ donorId, "Available", participant.get().getCity(), participant.get().getState());
+
+        System.out.println("After pickuplist" + page);
+
 
         return page;
 //        return donationRepository.findAll(pageable);
@@ -79,6 +102,9 @@ public class DonationController {
                     donation.setDonorId(donationRequest.getDonorId());
                     donation.setDonationDt(donationRequest.getDonationDt());
                     donation.setVolunteerId(donationRequest.getVolunteerId());
+                    donation.setStatus(donationRequest.getStatus());
+                    donation.setDonorCity(donationRequest.getDonorCity());
+                    donation.setDonorState(donationRequest.getDonorState());
                     return donationRepository.save(donation);
                 }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));
     }
