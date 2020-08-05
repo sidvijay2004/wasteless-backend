@@ -61,7 +61,7 @@ public class DonationController {
         Page<Donation> page;
 //        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, ""+ donorId, "Available", city, state);
         if(zipcode.isPresent()){
-           page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcode(pageable, donorId, "Available", zipcode);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcode(pageable, donorId, "Available", zipcode);
 
         }
         else if (city.isPresent() && state.isPresent()){
@@ -85,6 +85,22 @@ public class DonationController {
         return page;
 //        return donationRepository.findAll(pageable);
     }
+
+
+    @GetMapping("/myPickupList/{volunteerId}")
+    public Page<Donation> myPickupList(Pageable pageable, @PathVariable String volunteerId) {
+
+        System.out.println("Before mypickup List executes");
+
+
+        Page<Donation> page = donationRepository.findByVolunteerId(pageable, ""+ volunteerId);
+
+        System.out.println("page: " + page);
+
+        return page;
+//        return donationRepository.findAll(pageable);
+    }
+
 
     @GetMapping("/donation/{donationId}")
     public Optional<Donation> getDonation(@PathVariable Long donationId) {
@@ -111,10 +127,22 @@ public class DonationController {
         return saveDonation;
     }
 
+    @PutMapping("/updateTakenDonation/{donationId}")
+    public Donation updateTakenDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+
+        return donationRepository.findById(donationId)
+                .map(donation -> {
+                    donation.setVolunteerId(volunteerId);
+                    donation.setStatus("Taken");
+
+                    return donationRepository.save(donation);
+                }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));
+    }
+
     @PutMapping("/donations/{donationId}")
     public Donation updateDonation(@PathVariable Long donationId,
                                    @Valid @RequestBody Donation donationRequest) {
-            System.out.println("Inside Update Donation");
+        System.out.println("Inside Update Donation");
         return donationRepository.findById(donationId)
                 .map(donation -> {
                     donation.setDescription(donationRequest.getDescription());
