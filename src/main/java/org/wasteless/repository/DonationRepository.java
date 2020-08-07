@@ -17,6 +17,8 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
 //    @Query(value = " SELECT d from donation d where CAST (d.donorid AS VARCHAR) = :donorid and d.status = :status and (d.donorCity = :donorCity or d.donorState = :donorState )",
 //            countQuery = " SELECT count(*) from donation d where CAST (d.donorid AS VARCHAR) = :donorid and d.status = :status and (d.donorCity = :donorCity or d.donorState = :donorState )",
 //            nativeQuery = true)
+    Page<Donation> findByDonorIdNotAndStatus(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status );
+
     Page<Donation> findByDonorIdNotAndStatusAndDonorCityAndDonorState(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity, @Param("donorState") Optional<String> donorState);
 
     Page<Donation> findByDonorIdNotAndStatusAndDonorCity(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity);

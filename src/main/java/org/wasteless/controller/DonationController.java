@@ -51,29 +51,44 @@ public class DonationController {
     @GetMapping("/pickupList/{donorId}")
     public Page<Donation> pickupList(Pageable pageable, @PathVariable String donorId, @RequestParam Optional<String>  city, @RequestParam Optional<String>  state, @RequestParam Optional<String>  zipcode) {
 
-        System.out.println("Before pickup List");
+        System.out.println("Before pickup List. donor id: " + donorId);
 
 //        Optional<Participant> participant = participantRepository.findById(donorId);
 
 //        System.out.println("participant" + participantRequest);
-        System.out.println("Before PickupList: city, state:  " + city + state);
+        System.out.println("Before PickupList: city:  " + city );
+        System.out.println("Before PickupList:  state:  " + state );
+        System.out.println("Before PickupList:  zipcode:  " + zipcode );
 
         Page<Donation> page;
 //        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, ""+ donorId, "Available", city, state);
         if(zipcode.isPresent()){
+            System.out.println("Executing Zipcode logic");
+
             page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcode(pageable, donorId, "Available", zipcode);
 
         }
         else if (city.isPresent() && state.isPresent()){
+            System.out.println("Executing City and State logic");
+
             page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, donorId, "Available", city, state);
 
         }
         else if (city.isPresent()){
+            System.out.println("Executing City logic");
+
             page = donationRepository.findByDonorIdNotAndStatusAndDonorCity(pageable, donorId, "Available", city);
 
         }
-        else{
+        else if (state.isPresent()){
+            System.out.println("Executing State logic");
+
             page = donationRepository.findByDonorIdNotAndStatusAndDonorState(pageable, donorId, "Available", state);
+
+        }    else{
+            System.out.println("Executing just id and status logic");
+
+            page = donationRepository.findByDonorIdNotAndStatus(pageable, donorId, "Available");
 
         }
 
