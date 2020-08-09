@@ -105,7 +105,7 @@ public class DonationController {
     @GetMapping("/myPickupList/{volunteerId}")
     public Page<Donation> myPickupList(Pageable pageable, @PathVariable String volunteerId) {
 
-        System.out.println("Before mypickup List executes");
+        System.out.println("MYpickupList Volunteer id: " + volunteerId);
 
 
         Page<Donation> page = donationRepository.findByVolunteerId(pageable, ""+ volunteerId);
@@ -144,6 +144,9 @@ public class DonationController {
 
     @PutMapping("/updateTakenDonation/{donationId}")
     public Donation updateTakenDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+        System.out.println(" updateTakenDonation");
+        System.out.println(" donationId="+donationId);
+        System.out.println(" volunteerId:"+volunteerId);
 
         return donationRepository.findById(donationId)
                 .map(donation -> {
