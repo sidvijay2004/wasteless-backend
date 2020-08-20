@@ -17,6 +17,8 @@ import javax.validation.Valid;
 import java.util.Date;
 import java.util.Optional;
 
+import org.wasteless.util.Constants;
+
 @RestController
 public class DonationController {
 
@@ -61,38 +63,37 @@ public class DonationController {
         System.out.println("Before PickupList:  zipcode:  " + zipcode );
 
         Page<Donation> page;
-//        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, ""+ donorId, "Available", city, state);
         if(zipcode.isPresent()){
             System.out.println("Executing Zipcode logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcode(pageable, donorId, "Available", zipcode);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcode(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, zipcode);
 
         }
         else if (city.isPresent() && state.isPresent()){
             System.out.println("Executing City and State logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, donorId, "Available", city, state);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city, state);
 
         }
         else if (city.isPresent()){
             System.out.println("Executing City logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorCity(pageable, donorId, "Available", city);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorCity(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city);
 
         }
         else if (state.isPresent()){
             System.out.println("Executing State logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorState(pageable, donorId, "Available", state);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorState(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, state);
 
         }    else{
             System.out.println("Executing just id and status logic");
 
-            page = donationRepository.findByDonorIdNotAndStatus(pageable, donorId, "Available");
+            page = donationRepository.findByDonorIdNotAndStatus(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE);
 
         }
 
-//        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusOrDonorCityOrDonorState(pageable, donorId, "Available", city, state);
+//        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusOrDonorCityOrDonorState(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city, state);
 
         System.out.println("After PickupList: city, state:  " + city + state);
 
@@ -152,6 +153,20 @@ public class DonationController {
                 .map(donation -> {
                     donation.setVolunteerId(volunteerId);
                     donation.setStatus("Taken");
+
+                    return donationRepository.save(donation);
+                }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));
+    }
+
+    @PutMapping("/cancelTakenDonation/{donationId}")
+    public Donation cancelTakenDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+        System.out.println(" donationId="+donationId);
+        System.out.println(" volunteerId:"+volunteerId);
+
+        return donationRepository.findById(donationId)
+                .map(donation -> {
+                    donation.setVolunteerId(null);
+                    donation.setStatus(Constants.DONATION_STATUS_AVALIABLE);
 
                     return donationRepository.save(donation);
                 }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));
