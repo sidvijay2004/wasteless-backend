@@ -43,7 +43,9 @@ public class DonationController {
     @GetMapping("/mydonations/{donorId}")
     public Page<Donation> myDonations(Pageable pageable, @PathVariable String donorId) {
 
-        Page<Donation> page = donationRepository.findByDonorId(pageable, donorId);
+
+
+        Page<Donation> page = donationRepository.findByDonorIdAndStatusNot(pageable, donorId, Constants.DONATION_STATUS_COMPLETED);
 
 
         return page;
@@ -93,13 +95,11 @@ public class DonationController {
 
         }
 
-//        Page<Donation> page = donationRepository.findByDonorIdNotAndStatusOrDonorCityOrDonorState(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city, state);
 
         System.out.println("After PickupList: city, state:  " + city + state);
 
 
         return page;
-//        return donationRepository.findAll(pageable);
     }
 
 
@@ -109,7 +109,7 @@ public class DonationController {
         System.out.println("MYpickupList Volunteer id: " + volunteerId);
 
 
-        Page<Donation> page = donationRepository.findByVolunteerId(pageable, ""+ volunteerId);
+        Page<Donation> page = donationRepository.findByVolunteerIdAndStatus(pageable, ""+ volunteerId, Constants.DONATION_STATUS_TAKEN);
 
         System.out.println("page: " + page);
 
@@ -167,6 +167,19 @@ public class DonationController {
                 .map(donation -> {
                     donation.setVolunteerId(null);
                     donation.setStatus(Constants.DONATION_STATUS_AVALIABLE);
+
+                    return donationRepository.save(donation);
+                }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));
+    }
+
+    @PutMapping("/completedDonation/{donationId}")
+    public Donation completedDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+        System.out.println(" donationId="+donationId);
+
+        return donationRepository.findById(donationId)
+                .map(donation -> {
+
+                    donation.setStatus(Constants.DONATION_STATUS_COMPLETED);
 
                     return donationRepository.save(donation);
                 }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));

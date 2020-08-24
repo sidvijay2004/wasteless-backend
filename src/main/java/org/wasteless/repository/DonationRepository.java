@@ -19,6 +19,8 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
 //            nativeQuery = true)
     Page<Donation> findByDonorIdNotAndStatus(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status );
 
+    Page<Donation> findByDonorIdAndStatusNot(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status );
+
     Page<Donation> findByDonorIdNotAndStatusAndDonorCityAndDonorState(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity, @Param("donorState") Optional<String> donorState);
 
     Page<Donation> findByDonorIdNotAndStatusAndDonorCity(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity);
@@ -28,6 +30,9 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     Page<Donation> findByDonorIdNotAndStatusAndDonorZipcode(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorZipcode") Optional<String> donorZipcode);
 
     Page<Donation> findByVolunteerId(Pageable pageable, @Param("volunteerId") String volunteerId);
+
+    Page<Donation> findByVolunteerIdAndStatus(Pageable pageable, @Param("volunteerId") String volunteerId, @Param("status") String status);
+
 
     Page<Donation> findByDonorIdNot(Pageable pageable, String donorId);
 
