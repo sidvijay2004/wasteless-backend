@@ -45,7 +45,7 @@ public class DonationController {
 
 
 
-        Page<Donation> page = donationRepository.findByDonorIdAndStatusNot(pageable, donorId, Constants.DONATION_STATUS_COMPLETED);
+        Page<Donation> page = donationRepository.findByDonorIdAndStatusNotOrderByDonationDtDesc(pageable, donorId, Constants.DONATION_STATUS_COMPLETED);
 
 
         return page;
@@ -68,30 +68,30 @@ public class DonationController {
         if(zipcode.isPresent()){
             System.out.println("Executing Zipcode logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcode(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, zipcode);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorZipcodeOrderByDonationDtDesc(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, zipcode);
 
         }
         else if (city.isPresent() && state.isPresent()){
             System.out.println("Executing City and State logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorState(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city, state);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorCityAndDonorStateOrderByDonationDtDesc(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city, state);
 
         }
         else if (city.isPresent()){
             System.out.println("Executing City logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorCity(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorCityOrderByDonationDtDesc(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, city);
 
         }
         else if (state.isPresent()){
             System.out.println("Executing State logic");
 
-            page = donationRepository.findByDonorIdNotAndStatusAndDonorState(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, state);
+            page = donationRepository.findByDonorIdNotAndStatusAndDonorStateOrderByDonationDtDesc(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE, state);
 
         }    else{
             System.out.println("Executing just id and status logic");
 
-            page = donationRepository.findByDonorIdNotAndStatus(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE);
+            page = donationRepository.findByDonorIdNotAndStatusOrderByDonationDtDesc(pageable, donorId, Constants.DONATION_STATUS_AVALIABLE);
 
         }
 
@@ -109,7 +109,7 @@ public class DonationController {
         System.out.println("MYpickupList Volunteer id: " + volunteerId);
 
 
-        Page<Donation> page = donationRepository.findByVolunteerIdAndStatus(pageable, ""+ volunteerId, Constants.DONATION_STATUS_TAKEN);
+        Page<Donation> page = donationRepository.findByVolunteerIdAndStatusOrderByDonationDtDesc(pageable, ""+ volunteerId, Constants.DONATION_STATUS_TAKEN);
 
         System.out.println("page: " + page);
 

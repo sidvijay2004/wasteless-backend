@@ -17,21 +17,21 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
 //    @Query(value = " SELECT d from donation d where CAST (d.donorid AS VARCHAR) = :donorid and d.status = :status and (d.donorCity = :donorCity or d.donorState = :donorState )",
 //            countQuery = " SELECT count(*) from donation d where CAST (d.donorid AS VARCHAR) = :donorid and d.status = :status and (d.donorCity = :donorCity or d.donorState = :donorState )",
 //            nativeQuery = true)
-    Page<Donation> findByDonorIdNotAndStatus(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status );
+    Page<Donation> findByDonorIdNotAndStatusOrderByDonationDtDesc(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status );
 
-    Page<Donation> findByDonorIdAndStatusNot(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status );
+    Page<Donation> findByDonorIdAndStatusNotOrderByDonationDtDesc(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status );
 
-    Page<Donation> findByDonorIdNotAndStatusAndDonorCityAndDonorState(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity, @Param("donorState") Optional<String> donorState);
+    Page<Donation> findByDonorIdNotAndStatusAndDonorCityAndDonorStateOrderByDonationDtDesc(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity, @Param("donorState") Optional<String> donorState);
 
-    Page<Donation> findByDonorIdNotAndStatusAndDonorCity(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity);
+    Page<Donation> findByDonorIdNotAndStatusAndDonorCityOrderByDonationDtDesc(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorCity") Optional<String> donorCity);
 
-    Page<Donation> findByDonorIdNotAndStatusAndDonorState(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorState") Optional<String> donorState);
+    Page<Donation> findByDonorIdNotAndStatusAndDonorStateOrderByDonationDtDesc(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorState") Optional<String> donorState);
 
-    Page<Donation> findByDonorIdNotAndStatusAndDonorZipcode(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorZipcode") Optional<String> donorZipcode);
+    Page<Donation> findByDonorIdNotAndStatusAndDonorZipcodeOrderByDonationDtDesc(Pageable pageable, @Param("donorId") String donorId, @Param("status") String status, @Param("donorZipcode") Optional<String> donorZipcode);
 
     Page<Donation> findByVolunteerId(Pageable pageable, @Param("volunteerId") String volunteerId);
 
-    Page<Donation> findByVolunteerIdAndStatus(Pageable pageable, @Param("volunteerId") String volunteerId, @Param("status") String status);
+    Page<Donation> findByVolunteerIdAndStatusOrderByDonationDtDesc(Pageable pageable, @Param("volunteerId") String volunteerId, @Param("status") String status);
 
 
     Page<Donation> findByDonorIdNot(Pageable pageable, String donorId);
