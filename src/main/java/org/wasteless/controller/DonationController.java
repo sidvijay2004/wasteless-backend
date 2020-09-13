@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.wasteless.util.Constants;
+import org.wasteless.util.EmailService;
 
 @RestController
 public class DonationController {
@@ -25,8 +26,10 @@ public class DonationController {
     @Autowired
     private ParticipantRepository participantRepository;
 
+
     @Autowired
     private DonationRepository donationRepository;
+
 
     @GetMapping("/donations")
     public Page<Donation> getDonations(Pageable pageable) {

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.wasteless.exception.ResourceNotFoundException;
 import org.wasteless.model.Participant;
 import org.wasteless.repository.ParticipantRepository;
+import org.wasteless.util.EmailService;
 
 import javax.servlet.http.Part;
 import javax.validation.Valid;
@@ -19,6 +20,36 @@ public class ParticipantController {
 
     @Autowired
     private ParticipantRepository participantRepository;
+    @Autowired
+    private EmailService emailService;
+
+
+    @GetMapping("/forgotPassword/{participantId}")
+    public ResponseEntity<?> forgotPassword(@PathVariable Long participantId) {
+        return participantRepository.findById(participantId)
+                .map(participant -> {
+                    emailService.sendEmail(participant);
+                    return ResponseEntity.ok().build();
+                }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + participantId));
+    }
+
+//
+//    @GetMapping("/forgotPassword/{participantId}")
+//    public ResponseEntity<?> forgotPassword(@PathVariable Long participantId) {
+////        participantRepository.findById(participantId)
+////                .map(participant -> {
+////                    emailService.sendEmail(participant.getEmail());
+////                    return ResponseEntity.ok().build();
+////                }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + participantId));
+//
+//         participantRepository.findById(participantId)
+//                .map(participant -> {
+//                    participantRepository.delete(participant);
+//                    return ResponseEntity.ok().build();
+//                }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + participantId));
+//
+//
+//    }
 
     @GetMapping("/donors")
     public Page<Participant> getDonors(Pageable pageable) {
