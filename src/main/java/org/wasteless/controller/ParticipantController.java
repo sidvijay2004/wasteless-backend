@@ -10,6 +10,7 @@ import org.wasteless.exception.ResourceNotFoundException;
 import org.wasteless.model.Participant;
 import org.wasteless.repository.ParticipantRepository;
 import org.wasteless.util.EmailService;
+import org.wasteless.util.SecurityService;
 
 import javax.servlet.http.Part;
 import javax.validation.Valid;
@@ -22,12 +23,16 @@ public class ParticipantController {
     private ParticipantRepository participantRepository;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private SecurityService securityService;
 
 
     @GetMapping("/forgotPassword/{participantId}")
     public ResponseEntity<?> forgotPassword(@PathVariable Long participantId) {
+
         return participantRepository.findById(participantId)
                 .map(participant -> {
+                    System.out.println("participant: " + participant);
                     emailService.sendEmail(participant);
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + participantId));
@@ -78,6 +83,20 @@ public class ParticipantController {
                     participant.setCountry(participantRequest.getCountry());
                     return participantRepository.save(participant);
                 }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + donorId));
+    }
+
+    @PutMapping("/changePassword/{secToken}")
+    public Participant changePassword(@PathVariable String secToken, @RequestBody String newPassword) {
+        System.out.println("Security Token = " + secToken + " newPassword: " + newPassword);
+        String decryptMess = securityService.decrypt(secToken);
+        System.out.println("Security decrypt: " + decryptMess);
+        Long donorId = new Long(decryptMess);
+        System.out.println("Security Token (Doner ID) = " + donorId);
+        return participantRepository.findById(donorId)
+                .map(participant -> {
+                    participant.setPassword(newPassword);
+                    return participantRepository.save(participant);
+                }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + secToken));
     }
 
 
