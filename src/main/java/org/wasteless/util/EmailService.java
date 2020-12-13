@@ -45,7 +45,9 @@ public class EmailService {
 
         msg.setSubject("Wasteless login info.");
         System.out.println("participant id : " + participant.getId());
-        msg.setText("Here is your security token: " + securityService.encrypt(""+(participant.getId())));
+//      msg.setText("Here is your security token: " + securityService.encrypt(""+(participant.getId())));
+        msg.setText("Here is your password: " + participant.getPassword());
+
 
         javaMailSender.send(msg);
 
