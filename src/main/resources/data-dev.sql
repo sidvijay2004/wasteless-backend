@@ -27,7 +27,7 @@ CREATE TABLE Donation(
 
 -- 12-16-20 To track all the events
 
-DROP TABLE event_Log;
+--DROP TABLE event_Log;
 CREATE TABLE event_Log(
   id serial PRIMARY KEY,
   participantId integer ,

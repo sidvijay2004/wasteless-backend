@@ -7,7 +7,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wasteless.exception.ResourceNotFoundException;
+import org.wasteless.model.EventLog;
 import org.wasteless.model.Participant;
+import org.wasteless.repository.EventLogRepository;
 import org.wasteless.repository.ParticipantRepository;
 import org.wasteless.util.EmailService;
 import org.wasteless.util.SecurityService;
@@ -21,6 +23,8 @@ public class ParticipantController {
 
     @Autowired
     private ParticipantRepository participantRepository;
+    @Autowired
+    private EventLogRepository eventLogRepository;
     @Autowired
     private EmailService emailService;
     @Autowired
@@ -114,8 +118,26 @@ public class ParticipantController {
 
     @PostMapping("/donors/login")
     public Participant loginDonor(@RequestBody Participant participant) {
-        System.out.println(new Date());
-        return participantRepository.findByEmailAndPassword(participant.getEmail(), participant.getPassword());
+
+        participant =  participantRepository.findByEmailAndPassword(participant.getEmail(), participant.getPassword());
+
+        EventLog eventLog = new EventLog();
+        eventLog.setEventName("login");
+
+
+        if(participant == null) {
+            eventLog.setParticipantId((long) 0);
+            eventLog.setLogData("No Data");
+
+        } else {
+            eventLog.setParticipantId(participant.getId());
+            eventLog.setLogData(participant.toString());
+        }
+
+        System.out.println("eventLog: " + eventLog);
+        eventLogRepository.save(eventLog);
+
+        return participant;
     }
 
 
