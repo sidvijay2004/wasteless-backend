@@ -174,7 +174,7 @@ public class DonationController {
         return donationRepository.findById(donationId)
                 .map(donation -> {
                     Optional<Participant> participant = participantRepository.findById(new Long(donation.getDonorId()));
-                    emailService.sendTakenEmail(participant);
+                    emailService.sendEmail(participant.get(), "Wasteless Donation Status", "Hello, there is a volunteer who has signed up to pick your donation! Please log into Wasteless to learn more.");
                     donation.setVolunteerId(volunteerId);
                     donation.setStatus("Taken");
 

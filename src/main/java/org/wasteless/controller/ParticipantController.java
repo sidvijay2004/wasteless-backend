@@ -32,16 +32,21 @@ public class ParticipantController {
     private EventService eventService;
 
 
-    @GetMapping("/forgotPassword/{participantId}")
-    public ResponseEntity<?> forgotPassword(@PathVariable Long participantId) {
-        eventService.createEvent(participantId, participantId, "forgotPassword");
+    @GetMapping("/forgotPassword")
+    public void forgotPassword(@RequestParam String email) {
+        System.out.println("email: " + email);
 
-        return participantRepository.findById(participantId)
-                .map(participant -> {
-                    System.out.println("participant: " + participant);
-                    emailService.sendEmail(participant);
-                    return ResponseEntity.ok().build();
-                }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + participantId));
+        Participant participant =  participantRepository.findByEmail(email);
+
+        Long participantId = null;
+
+        if(participant != null){
+            participantId = participant.getId();
+        }
+
+        eventService.createEvent(participantId,participant, "forgotPassword");
+        emailService.sendEmail(participant, "Wasteless login info.", "Here is your password: " + participant.getPassword());
+
     }
 
 //

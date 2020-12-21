@@ -38,35 +38,29 @@ public class EmailService {
     @Autowired
     private SecurityService securityService;
 
-    public void sendEmail(Participant participant) {
-        System.out.println("ToEmail" + participant.getEmail());
+    public void sendEmail(Participant participant, String subject, String body) {
         SimpleMailMessage msg = new SimpleMailMessage();
-//        msg.setTo("vijayjayaram@gmail.com", "sidvijay2004@gmail.com");
         msg.setTo(participant.getEmail());
-
-        msg.setSubject("Wasteless login info.");
-        System.out.println("participant id : " + participant.getId());
-//      msg.setText("Here is your security token: " + securityService.encrypt(""+(participant.getId())));
-        msg.setText("Here is your password: " + participant.getPassword());
-
+        msg.setSubject(subject);
+        msg.setText(body);
 
         javaMailSender.send(msg);
 
     }
 
-    public void sendTakenEmail(Optional<Participant> participant) {
-        SimpleMailMessage msg = new SimpleMailMessage();
-//        msg.setTo("vijayjayaram@gmail.com", "sidvijay2004@gmail.com");
-        msg.setTo(participant.get().getEmail());
-
-        msg.setSubject("Wasteless Donation Status");
-//      msg.setText("Here is your security token: " + securityService.encrypt(""+(participant.getId())));
-        msg.setText("Hello, there is a volunteer who has signed up to pick your donation! Please log into Wasteless to learn more.");
-
-
-        javaMailSender.send(msg);
-
-    }
+//    public void sendTakenEmail(Optional<Participant> participant) {
+//        SimpleMailMessage msg = new SimpleMailMessage();
+////        msg.setTo("vijayjayaram@gmail.com", "sidvijay2004@gmail.com");
+//        msg.setTo(participant.get().getEmail());
+//
+//        msg.setSubject();
+////      msg.setText("Here is your security token: " + securityService.encrypt(""+(participant.getId())));
+//        msg.setText();
+//
+//
+//        javaMailSender.send(msg);
+//
+//    }
 
 
 //    private static final String NOREPLY_ADDRESS = "noreply@baeldung.com";
