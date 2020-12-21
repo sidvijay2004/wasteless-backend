@@ -3,6 +3,7 @@ package org.wasteless.util;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -52,6 +53,22 @@ public class EmailService {
         javaMailSender.send(msg);
 
     }
+
+    public void sendTakenEmail(Optional<Participant> participant) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+//        msg.setTo("vijayjayaram@gmail.com", "sidvijay2004@gmail.com");
+        msg.setTo(participant.get().getEmail());
+
+        msg.setSubject("Wasteless Donation Status");
+//      msg.setText("Here is your security token: " + securityService.encrypt(""+(participant.getId())));
+        msg.setText("Hello, there is a volunteer who has signed up to pick your donation! Please log into Wasteless to learn more.");
+
+
+        javaMailSender.send(msg);
+
+    }
+
+
 //    private static final String NOREPLY_ADDRESS = "noreply@baeldung.com";
 
 //    @Autowired

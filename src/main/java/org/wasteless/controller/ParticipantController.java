@@ -12,6 +12,7 @@ import org.wasteless.model.Participant;
 import org.wasteless.repository.EventLogRepository;
 import org.wasteless.repository.ParticipantRepository;
 import org.wasteless.util.EmailService;
+import org.wasteless.util.EventService;
 import org.wasteless.util.SecurityService;
 
 import javax.servlet.http.Part;
@@ -24,15 +25,16 @@ public class ParticipantController {
     @Autowired
     private ParticipantRepository participantRepository;
     @Autowired
-    private EventLogRepository eventLogRepository;
-    @Autowired
     private EmailService emailService;
     @Autowired
     private SecurityService securityService;
+    @Autowired
+    private EventService eventService;
 
 
     @GetMapping("/forgotPassword/{participantId}")
     public ResponseEntity<?> forgotPassword(@PathVariable Long participantId) {
+        eventService.createEvent(participantId, participantId, "forgotPassword");
 
         return participantRepository.findById(participantId)
                 .map(participant -> {
@@ -67,12 +69,15 @@ public class ParticipantController {
 
     @PostMapping("/donors")
     public Participant createDonor(@Valid @RequestBody Participant participant) {
+        eventService.createEvent(participant.getId(), participant, "createDonor");
         return participantRepository.save(participant);
     }
 
     @PutMapping("/donors/{donorId}")
     public Participant updateDonor(@PathVariable Long donorId,
                                    @Valid @RequestBody Participant participantRequest) {
+        eventService.createEvent(participantRequest.getId(), participantRequest, "updateDonor");
+
         return participantRepository.findById(donorId)
                 .map(participant -> {
                     participant.setName(participantRequest.getName());
@@ -85,6 +90,7 @@ public class ParticipantController {
                     participant.setState(participantRequest.getState());
                     participant.setZipcode(participantRequest.getZipcode());
                     participant.setCountry(participantRequest.getCountry());
+
                     return participantRepository.save(participant);
                 }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + donorId));
     }
@@ -96,9 +102,11 @@ public class ParticipantController {
         System.out.println("Security decrypt: " + decryptMess);
         Long donorId = new Long(decryptMess);
         System.out.println("Security Token (Doner ID) = " + donorId);
+
         return participantRepository.findById(donorId)
                 .map(participant -> {
                     participant.setPassword(newPassword);
+                    eventService.createEvent(participant.getId(), participant, "changePassword");
                     return participantRepository.save(participant);
                 }).orElseThrow(() -> new ResourceNotFoundException("Participant not found with id " + secToken));
     }
@@ -106,6 +114,8 @@ public class ParticipantController {
 
     @DeleteMapping("/donors/{donorId}")
     public ResponseEntity<?> deleteDonor(@PathVariable Long donorId) {
+        eventService.createEvent(donorId, donorId, "deleteDonor");
+
         return participantRepository.findById(donorId)
                 .map(participant -> {
                     participantRepository.delete(participant);
@@ -121,21 +131,13 @@ public class ParticipantController {
 
         participant =  participantRepository.findByEmailAndPassword(participant.getEmail(), participant.getPassword());
 
-        EventLog eventLog = new EventLog();
-        eventLog.setEventName("login");
+        Long participantId = null;
 
-
-        if(participant == null) {
-            eventLog.setParticipantId((long) 0);
-            eventLog.setLogData("No Data");
-
-        } else {
-            eventLog.setParticipantId(participant.getId());
-            eventLog.setLogData(participant.toString());
+        if(participant != null){
+            participantId = participant.getId();
         }
 
-        System.out.println("eventLog: " + eventLog);
-        eventLogRepository.save(eventLog);
+        eventService.createEvent(participantId,participant, "Login");
 
         return participant;
     }

@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+
+import org.wasteless.model.EventLog;
 import org.wasteless.model.Participant;
+import org.wasteless.repository.EventLogRepository;
 //
 //import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 //import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -24,6 +27,8 @@ public class SecurityService {
     Cipher cipher;
     Key aesKey;
 
+    @Autowired
+    private EventLogRepository eventLogRepository;
 
     public String encrypt(String value)
     {
@@ -69,8 +74,31 @@ public class SecurityService {
         }
     }
 
+    private void createEvent(Long participantId, Object object, String eventName) {
+        EventLog eventLog = new EventLog();
+        eventLog.setEventName(eventName);
+
+        if(participantId == null) {
+            eventLog.setParticipantId((long) 0);
+        } else {
+            eventLog.setParticipantId(participantId);
+        }
+
+
+        if(object == null) {
+            eventLog.setLogData("No Data");
+
+        } else {
+            eventLog.setLogData(object.toString());
+        }
+
+        System.out.println("eventLog: " + eventLog);
+        eventLogRepository.save(eventLog);
+    }
 
 
 
-   
+
+
+
 }

@@ -11,6 +11,8 @@ import org.wasteless.model.Donation;
 import org.wasteless.model.Participant;
 import org.wasteless.repository.DonationRepository;
 import org.wasteless.repository.ParticipantRepository;
+import org.wasteless.util.EventService;
+
 
 
 import javax.validation.Valid;
@@ -30,6 +32,12 @@ public class DonationController {
     @Autowired
     private DonationRepository donationRepository;
 
+    @Autowired
+    private EventService eventService;
+
+    @Autowired
+    private EmailService emailService;
+
 
     @GetMapping("/donations")
     public Page<Donation> getDonations(Pageable pageable) {
@@ -45,8 +53,7 @@ public class DonationController {
 
     @GetMapping("/mydonations/{donorId}")
     public Page<Donation> myDonations(Pageable pageable, @PathVariable String donorId) {
-
-
+        eventService.createEvent(new Long (donorId),donorId, "myDonations");
 
         Page<Donation> page = donationRepository.findByDonorIdAndStatusNotOrderByDonationDtDesc(pageable, donorId, Constants.DONATION_STATUS_COMPLETED);
 
@@ -57,6 +64,8 @@ public class DonationController {
 
     @GetMapping("/pickupList/{donorId}")
     public Page<Donation> pickupList(Pageable pageable, @PathVariable String donorId, @RequestParam Optional<String>  city, @RequestParam Optional<String>  state, @RequestParam Optional<String>  zipcode) {
+
+        eventService.createEvent(new Long (donorId),donorId, "pickupList");
 
         System.out.println("Before pickup List. donor id: " + donorId);
 
@@ -109,6 +118,9 @@ public class DonationController {
     @GetMapping("/myPickupList/{volunteerId}")
     public Page<Donation> myPickupList(Pageable pageable, @PathVariable String volunteerId) {
 
+        eventService.createEvent(new Long (volunteerId), volunteerId, "myPickupList");
+
+
         System.out.println("MYpickupList Volunteer id: " + volunteerId);
 
 
@@ -123,6 +135,8 @@ public class DonationController {
 
     @GetMapping("/donation/{donationId}")
     public Optional<Donation> getDonation(@PathVariable Long donationId) {
+        eventService.createEvent(donationId, donationId, "getDonation");
+
         System.out.println("Inside get Donation Method: " + donationId);
 
 //        Donation donation = donationRepository.getOne(donationId);
@@ -138,6 +152,8 @@ public class DonationController {
 
     @PostMapping("/donations")
     public Donation createDonation(@Valid @RequestBody Donation donation) {
+        eventService.createEvent(new Long (donation.getDonorId()), donation, "createDonation");
+
         System.out.println("Inside Post Donation: " + new Date());
         System.out.println("Before Save = " + donation);
 //        return donationRepository.save(donation);
@@ -148,12 +164,17 @@ public class DonationController {
 
     @PutMapping("/updateTakenDonation/{donationId}")
     public Donation updateTakenDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+
+        eventService.createEvent(new Long (volunteerId), donationId, "updateTakenDonation");
+
         System.out.println(" updateTakenDonation");
         System.out.println(" donationId="+donationId);
         System.out.println(" volunteerId:"+volunteerId);
 
         return donationRepository.findById(donationId)
                 .map(donation -> {
+                    Optional<Participant> participant = participantRepository.findById(new Long(donation.getDonorId()));
+                    emailService.sendTakenEmail(participant);
                     donation.setVolunteerId(volunteerId);
                     donation.setStatus("Taken");
 
@@ -163,6 +184,8 @@ public class DonationController {
 
     @PutMapping("/cancelTakenDonation/{donationId}")
     public Donation cancelTakenDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+        eventService.createEvent(new Long (volunteerId), donationId, "cancelTakenDonation");
+
         System.out.println(" donationId="+donationId);
         System.out.println(" volunteerId:"+volunteerId);
 
@@ -177,6 +200,8 @@ public class DonationController {
 
     @PutMapping("/completedDonation/{donationId}")
     public Donation completedDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+        eventService.createEvent(new Long (volunteerId), donationId, "completedDonation");
+
         System.out.println(" donationId="+donationId);
 
         return donationRepository.findById(donationId)
@@ -191,6 +216,8 @@ public class DonationController {
     @PutMapping("/donations/{donationId}")
     public Donation updateDonation(@PathVariable Long donationId,
                                    @Valid @RequestBody Donation donationRequest) {
+        eventService.createEvent(new Long (donationRequest.getDonorId()), donationRequest, "updateDonation");
+
         System.out.println("Inside Update Donation");
         return donationRepository.findById(donationId)
                 .map(donation -> {
@@ -207,9 +234,12 @@ public class DonationController {
 
 
     @DeleteMapping("/donations/{donationId}")
-    public ResponseEntity<?> deleteDonation(@PathVariable Long donationId) {
+
+    public ResponseEntity<?> deleteDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
+
         return donationRepository.findById(donationId)
                 .map(donation -> {
+                    eventService.createEvent(new Long (donation.getDonorId()), donation, "deleteDonation");
                     donationRepository.delete(donation);
                     return ResponseEntity.ok().build();
                 }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));
