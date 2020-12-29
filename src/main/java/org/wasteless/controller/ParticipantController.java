@@ -7,17 +7,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wasteless.exception.ResourceNotFoundException;
-import org.wasteless.model.EventLog;
 import org.wasteless.model.Participant;
-import org.wasteless.repository.EventLogRepository;
 import org.wasteless.repository.ParticipantRepository;
 import org.wasteless.util.EmailService;
 import org.wasteless.util.EventService;
 import org.wasteless.util.SecurityService;
 
-import javax.servlet.http.Part;
 import javax.validation.Valid;
-import java.util.Date;
+import java.util.Optional;
 
 @RestController
 public class ParticipantController {
@@ -71,6 +68,13 @@ public class ParticipantController {
     public Page<Participant> getDonors(Pageable pageable) {
         return participantRepository.findAll(pageable);
     }
+
+    @GetMapping("/participant/{participantId}")
+    public Participant getParticipant(@PathVariable Long participantId) {
+
+        return participantRepository.findById(participantId).get();
+    }
+
 
     @PostMapping("/donors")
     public Participant createDonor(@Valid @RequestBody Participant participant) {
