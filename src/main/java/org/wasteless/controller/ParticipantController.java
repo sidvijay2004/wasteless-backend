@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wasteless.exception.ResourceNotFoundException;
 import org.wasteless.model.Participant;
+import org.wasteless.model.ResponseStatus;
 import org.wasteless.repository.ParticipantRepository;
 import org.wasteless.util.EmailService;
 import org.wasteless.util.EventService;
@@ -30,7 +31,7 @@ public class ParticipantController {
 
 
     @GetMapping("/forgotPassword")
-    public void forgotPassword(@RequestParam String email) {
+    public ResponseStatus forgotPassword(@RequestParam String email) {
         System.out.println("email: " + email);
 
         Participant participant =  participantRepository.findByEmail(email);
@@ -44,6 +45,7 @@ public class ParticipantController {
         eventService.createEvent(participantId,participant, "forgotPassword");
         emailService.sendEmail(participant, "Wasteless login info.", "Here is your password: " + participant.getPassword());
 
+        return new ResponseStatus("1","sent mail");
     }
 
 //
