@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.wasteless.exception.ResourceNotFoundException;
 import org.wasteless.model.Participant;
-import org.wasteless.model.ResponseStatus;
+import org.wasteless.model.ResponseStatus   ;
 import org.wasteless.repository.ParticipantRepository;
 import org.wasteless.util.EmailService;
 import org.wasteless.util.EventService;

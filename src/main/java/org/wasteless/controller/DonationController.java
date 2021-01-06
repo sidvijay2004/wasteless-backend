@@ -174,9 +174,11 @@ public class DonationController {
         return donationRepository.findById(donationId)
                 .map(donation -> {
                     Optional<Participant> participant = participantRepository.findById(new Long(donation.getDonorId()));
+                    Optional<Participant> volunteer = participantRepository.findById(new Long(volunteerId));
                     emailService.sendEmail(participant.get(), "Wasteless Donation Status", "Hello, there is a volunteer who has signed up to pick your donation! Please log into Wasteless to learn more.");
                     donation.setVolunteerId(volunteerId);
                     donation.setStatus("Taken");
+                    donation.setvolunteerName(volunteer.get().getName());
 
                     return donationRepository.save(donation);
                 }).orElseThrow(() -> new ResourceNotFoundException("Donation not found with id " + donationId));

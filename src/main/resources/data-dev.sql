@@ -17,13 +17,27 @@ INSERT INTO participant(name,email,password,phone,address1,address2,city,state,z
 
 
 CREATE TABLE Donation(
-   id serial PRIMARY KEY,
-   name VARCHAR (50) NOT NULL,
-   DonorId integer NOT NULL,
-   Status VARCHAR(20) NOT NULL,
-   DonationDt TIMESTAMP NOT NULL,
-   volunteerId integer NOT NULL
+    id bigint NOT NULL,
+    description character varying(255) COLLATE pg_catalog."default",
+    donationdt timestamp without time zone,
+    donoraddress1 character varying(255) COLLATE pg_catalog."default",
+    donoraddress2 character varying(255) COLLATE pg_catalog."default",
+    donorcity character varying(255) COLLATE pg_catalog."default",
+    donorcountry character varying(255) COLLATE pg_catalog."default",
+    donorid character varying(255) COLLATE pg_catalog."default",
+    donorname character varying(255) COLLATE pg_catalog."default",
+    donorphone character varying(255) COLLATE pg_catalog."default",
+    donorstate character varying(255) COLLATE pg_catalog."default",
+    donorzipcode character varying(255) COLLATE pg_catalog."default",
+    status character varying(255) COLLATE pg_catalog."default",
+    volunteerid character varying(255) COLLATE pg_catalog."default",
+    volunteername character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT donation_pkey PRIMARY KEY (id)
    );
+
+INSERT INTO donation(id,description,donationdt,donoraddress1,donoraddress2,donorcity,donorcountry,donorid,donorname,donorphone,donorstate,donorzipcode,status,volunteerid,volunteername)
+values(1,'beans',NOW(),'3000 abc st','','Alpharetta','USA','10','siddharth','4044044044','GA','30009','Avaliable','2', 'Lath');
+
 
 -- 12-16-20 To track all the events
 

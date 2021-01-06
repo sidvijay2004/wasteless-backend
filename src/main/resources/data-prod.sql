@@ -15,14 +15,23 @@ CREATE TABLE participant(
 
 INSERT INTO participant(name,email,password,phone,address1,address2,city,state,zipcode,country) values('abc','abc@xyz.com','abc','98842','abc','abcxdde','buffalo','ny','14214','usa');
 
-
 CREATE TABLE Donation(
-   id serial PRIMARY KEY,
-   name VARCHAR (50) NOT NULL,
-   DonorId integer NOT NULL,
-   Status VARCHAR(20) NOT NULL,
-   DonationDt TIMESTAMP NOT NULL,
-   volunteerId integer NOT NULL
+    id bigint NOT NULL,
+    description character varying(255) COLLATE pg_catalog."default",
+    donationdt timestamp without time zone,
+    donoraddress1 character varying(255) COLLATE pg_catalog."default",
+    donoraddress2 character varying(255) COLLATE pg_catalog."default",
+    donorcity character varying(255) COLLATE pg_catalog."default",
+    donorcountry character varying(255) COLLATE pg_catalog."default",
+    donorid character varying(255) COLLATE pg_catalog."default",
+    donorname character varying(255) COLLATE pg_catalog."default",
+    donorphone character varying(255) COLLATE pg_catalog."default",
+    donorstate character varying(255) COLLATE pg_catalog."default",
+    donorzipcode character varying(255) COLLATE pg_catalog."default",
+    status character varying(255) COLLATE pg_catalog."default",
+    volunteerid character varying(255) COLLATE pg_catalog."default",
+    volunteername character varying(255) COLLATE pg_catalog."default",
+    CONSTRAINT donation_pkey PRIMARY KEY (id)
    );
 
 -- 12-16-20 To track all the events
@@ -35,3 +44,5 @@ CREATE TABLE event_Log(
   eventName VARCHAR (200) ,
   logData VARCHAR (10000)
 );
+
+

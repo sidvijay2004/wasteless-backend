@@ -48,6 +48,8 @@ public class Donation {
     private String donorState;
     @Column(name = "donorcountry")
     private String donorCountry;
+    @Column(name = "volunteerName")
+    private String volunteerName;
 
     public String getDonorZipcode() {
         return donorZipcode;
@@ -60,7 +62,7 @@ public class Donation {
     @Column(name = "donorzipcode")
     private String donorZipcode;
 
-    public Donation(Long id, String description, String donorId, String donorName, Timestamp donationDt, String status, String volunteerId, String donorPhone, String donorAddress1, String donorAddress2, String donorCity, String donorState, String donorCountry, String donorZipcode) {
+    public Donation(Long id, String description, String donorId, String donorName, Timestamp donationDt, String status, String volunteerId, String donorPhone, String donorAddress1, String donorAddress2, String donorCity, String donorState, String donorCountry, String donorZipcode, String volunteerName) {
         this.id = id;
         this.description = description;
         this.donorId = donorId;
@@ -75,6 +77,7 @@ public class Donation {
         this.donorState = donorState;
         this.donorCountry = donorCountry;
         this.donorZipcode = donorZipcode;
+        this.volunteerName = volunteerName;
     }
 
     @Override
@@ -92,6 +95,7 @@ public class Donation {
                 ", donorCity='" + donorCity + '\'' +
                 ", donorState='" + donorState + '\'' +
                 ", donorCountry='" + donorCountry + '\'' +
+                ", volunteerName='" + volunteerName + '\'' +
                 '}';
     }
 
@@ -181,6 +185,14 @@ public class Donation {
 
     public void setDonorCountry(String donorCountry) {
         this.donorCountry = donorCountry;
+    }
+
+    public String getvolunteerName() {
+        return volunteerName;
+    }
+
+    public void setvolunteerName(String volunteerName) {
+        this.volunteerName = volunteerName;
     }
 
     public Donation(){
