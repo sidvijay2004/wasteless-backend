@@ -1,0 +1,421 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Wasteless",
+		"_postman_id": "64ad5513-759f-bb9b-15a8-3a0d13f02f69",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Save-Participant",
+			"request": {
+				"url": "http://localhost:8081/donors",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "       {\n            \"id\": 2,\n            \"name\": \"abc2\",\n            \"email\": \"ab2c@xyz.com\",\n            \"password\": \"abc\",\n            \"phone\": \"98842\",\n            \"address1\": \"abc\",\n            \"address2\": \"abcxdde\",\n            \"city\": \"buffalo\",\n            \"state\": \"ny\",\n            \"zipcode\": \"14214\",\n            \"country\": \"usa\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Participant Login",
+			"request": {
+				"url": "http://localhost:8081/donors",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "       {\n            \"id\": 2,\n            \"name\": \"abc2\",\n            \"email\": \"ab2c@xyz.com\",\n            \"password\": \"abc\",\n            \"phone\": \"98842\",\n            \"address1\": \"abc\",\n            \"address2\": \"abcxdde\",\n            \"city\": \"buffalo\",\n            \"state\": \"ny\",\n            \"zipcode\": \"14214\",\n            \"country\": \"usa\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "AWS Participant Login",
+			"request": {
+				"url": "http://13.59.14.86:8080/donors/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "       {\n            \"id\": 2,\n            \"name\": \"abc2\",\n            \"email\": \"ab2c@xyz.com\",\n            \"password\": \"abc\",\n            \"phone\": \"98842\",\n            \"address1\": \"abc\",\n            \"address2\": \"abcxdde\",\n            \"city\": \"buffalo\",\n            \"state\": \"ny\",\n            \"zipcode\": \"14214\",\n            \"country\": \"usa\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws-Save-Participant",
+			"request": {
+				"url": "http://18.191.178.243:8090/donors",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "       {\n            \"name\": \"Subway\",\n            \"email\": \"sub@abc.com\",\n            \"password\": \"abc\",\n            \"phone\": \"123-121-1212\",\n            \"address1\": \"abc\",\n            \"address2\": \"abcxdde\",\n            \"city\": \"Alpharetta\",\n            \"state\": \"ga\",\n            \"zipcode\": \"30009\",\n            \"country\": \"usa\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Participant",
+			"request": {
+				"url": "http://localhost:8081/donors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Participant",
+			"request": {
+				"url": "http://localhost:8081/donors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "forgotPassword",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8081/forgotPassword?email=sidvijay2004@gmail.com",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"forgotPassword"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "sidvijay2004@gmail.com",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "AWS-forgotPassword",
+			"request": {
+				"url": "http://13.59.14.86:8080/forgotPassword/10",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws-Get Participant",
+			"request": {
+				"url": "http://13.59.14.86:8080/donors",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws-Get Donations",
+			"request": {
+				"url": "http://13.59.14.86:8080/donations",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws-Insert Donation",
+			"request": {
+				"url": "http://13.59.14.86:8080/donations",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n            \"id\": 197,\n            \"description\": \"Chocolate Cookies\",\n            \"donorId\": \"15\",\n            \"donorName\": \"siddharth vijayasankar\",\n            \"donationDt\": \"2021-01-02T23:07:16.259+0000\",\n            \"status\": \"Taken\",\n            \"volunteerId\": \"49\",\n            \"donorPhone\": \"4703284009\",\n            \"donorAddress1\": \"2480 Clairview Street\",\n            \"donorAddress2\": \"\",\n            \"donorCity\": \"Alpharetta\",\n            \"donorState\": \"Georgia\",\n            \"donorCountry\": \"USA\",\n            \"volunteerName\": \"boss\",\n            \"donorZipcode\": \"30009\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get Donations",
+			"request": {
+				"url": "http://localhost:8081/donations",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "My Donations",
+			"request": {
+				"url": "http://localhost:8081/mydonations/10",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Pickup List",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8081/pickupList/47?city=Alpharetta&state=Georgia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"pickupList",
+						"47"
+					],
+					"query": [
+						{
+							"key": "city",
+							"value": "Alpharetta",
+							"equals": true,
+							"description": ""
+						},
+						{
+							"key": "state",
+							"value": "Georgia",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "My PickupList",
+			"request": {
+				"url": "http://localhost:8081/myPickupList/10",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get One Donation by ID",
+			"request": {
+				"url": "http://localhost:8081/donation/53",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws-Get One Donation by ID",
+			"request": {
+				"url": "http://13.59.14.86:8080/donation/53",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Donation",
+			"request": {
+				"url": "http://localhost:8081/donations/53",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\n            \"id\": 54,\n            \"description\": \"Pizza\\n\",\n            \"donorId\": \"10\",\n            \"donorName\": \"Siddharth Vijayasankar\",\n            \"donationDt\": \"2020-07-30T00:15:02.609+0000\",\n            \"status\": \"Available\",\n            \"volunteerId\": \"-1\",\n            \"donorPhone\": \"4703284009\",\n            \"donorAddress1\": \"2480 Clairview Street\",\n            \"donorAddress2\": \"2480 Clairview Street\",\n            \"donorCity\": \"Alpharetta\",\n            \"donorState\": \"Alabama\",\n            \"donorCountry\": \"USA\",\n            \"donorZipcode\": \"30009\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Change Password",
+			"request": {
+				"url": "http://localhost:8081/donations/53",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\n            \"id\": 54,\n            \"description\": \"Pizza\\n\",\n            \"donorId\": \"10\",\n            \"donorName\": \"Siddharth Vijayasankar\",\n            \"donationDt\": \"2020-07-30T00:15:02.609+0000\",\n            \"status\": \"Available\",\n            \"volunteerId\": \"-1\",\n            \"donorPhone\": \"4703284009\",\n            \"donorAddress1\": \"2480 Clairview Street\",\n            \"donorAddress2\": \"2480 Clairview Street\",\n            \"donorCity\": \"Alpharetta\",\n            \"donorState\": \"Alabama\",\n            \"donorCountry\": \"USA\",\n            \"donorZipcode\": \"30009\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Update Taken Donation",
+			"request": {
+				"url": {
+					"raw": "http://localhost:8081/updateTakenDonation/55?volunteerId=47",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"updateTakenDonation",
+						"55"
+					],
+					"query": [
+						{
+							"key": "volunteerId",
+							"value": "47",
+							"equals": true,
+							"description": ""
+						}
+					],
+					"variable": []
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws - Update Taken Donation",
+			"request": {
+				"url": "http://13.59.14.86:8080/updateTakenDonation/10",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "        {\n            \"id\": 54,\n            \"description\": \"Pizza\\n\",\n            \"donorId\": \"10\",\n            \"donorName\": \"Siddharth Vijayasankar\",\n            \"donationDt\": \"2020-07-30T00:15:02.609+0000\",\n            \"status\": \"Available\",\n            \"volunteerId\": \"-1\",\n            \"donorPhone\": \"4703284009\",\n            \"donorAddress1\": \"2480 Clairview Street\",\n            \"donorAddress2\": \"2480 Clairview Street\",\n            \"donorCity\": \"Alpharetta\",\n            \"donorState\": \"Alabama\",\n            \"donorCountry\": \"USA\",\n            \"donorZipcode\": \"30009\"\n        }"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws-Update Donation",
+			"request": {
+				"url": "http://13.59.14.86:8080/donations/53",
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete All Donations",
+			"request": {
+				"url": "http://localhost:8081/donations/all",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "aws-wasteless-health",
+			"request": {
+				"url": "http://ec2co-ecsel-1qudmrtzgfpl9-414431613.us-east-2.elb.amazonaws.com:8081/actuator/health",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
