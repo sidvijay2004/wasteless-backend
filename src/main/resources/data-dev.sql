@@ -32,6 +32,7 @@ CREATE TABLE Donation(
     status character varying(255) COLLATE pg_catalog."default",
     volunteerid character varying(255) COLLATE pg_catalog."default",
     volunteername character varying(255) COLLATE pg_catalog."default",
+    volunteer_name character varying(255),
     CONSTRAINT donation_pkey PRIMARY KEY (id)
    );
 
