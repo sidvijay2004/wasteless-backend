@@ -58,6 +58,16 @@ public class EmailService {
 
     }
 
+    public void sendAdminEmail(String subject, String body) {
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("sidvijay2004@gmail.com");
+        msg.setSubject(subject);
+        msg.setText(body);
+
+        javaMailSender.send(msg);
+
+    }
+
 //    public void sendTakenEmail(Optional<Participant> participant) {
 //        SimpleMailMessage msg = new SimpleMailMessage();
 ////        msg.setTo("vijayjayaram@gmail.com", "sidvijay2004@gmail.com");

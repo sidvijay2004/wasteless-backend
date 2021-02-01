@@ -186,7 +186,12 @@ public class DonationController {
                 .map(donation -> {
                     Optional<Participant> participant = participantRepository.findById(new Long(donation.getDonorId()));
                     Optional<Participant> volunteer = participantRepository.findById(new Long(volunteerId));
-                    emailService.sendEmail(participant.get(), "Wasteless Donation Status", "Hello, there is a volunteer who has signed up to pick your donation! Please log into Wasteless to learn more.");
+                    emailService.sendEmail(participant.get(), "Wasteless: Your Donation Status: " + donation.getDescription(), "Hello, \n\n There is a volunteer who has signed up to pick your donation! \n\n The volunteer's name is " +
+                            volunteer.get().getName() + ". \n Their email is " + volunteer.get().getEmail() + ". \n Their phone number is " + volunteer.get().getPhone() + ". \n\n Please use this information to communicate with them about the donation." +
+                            " \n\n\n Thanks, \n Wasteless Team");
+                    emailService.sendEmail(volunteer.get(), "Wasteless: The Donation You Chose to Pickup: " + donation.getDescription(), "Hello, \n\n Thank you for signing up to pick up a donation from the Wasteless App! \n\n The donor's name is " +
+                            participant.get().getName() + ". \n Their email is " + participant.get().getEmail() + ". \n Their phone number is " + participant.get().getPhone() + ". \n\n Please use this information to communicate with them about the donation." +
+                            " \n\n\n Thanks, \n Wasteless Team");
                     donation.setVolunteerId(volunteerId);
                     donation.setStatus("Taken");
                     donation.setvolunteerName(volunteer.get().getName());

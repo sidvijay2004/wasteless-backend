@@ -91,6 +91,7 @@ public class ParticipantController {
     @PostMapping("/donors")
     public Participant createDonor(@Valid @RequestBody Participant participant) {
         eventService.createEvent(participant.getId(), participant, "createDonor");
+        emailService.sendAdminEmail("Wasteless New Participant", "A new participant has joined: " + participant.getName());
         return participantRepository.save(participant);
     }
 
