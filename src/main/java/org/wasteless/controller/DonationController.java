@@ -186,10 +186,10 @@ public class DonationController {
                 .map(donation -> {
                     Optional<Participant> participant = participantRepository.findById(new Long(donation.getDonorId()));
                     Optional<Participant> volunteer = participantRepository.findById(new Long(volunteerId));
-                    emailService.sendEmail(participant.get(), "Wasteless: Your Donation Status: " + donation.getDescription(), "Hello, \n\n There is a volunteer who has signed up to pick your donation! \n\n The volunteer's name is " +
+                    emailService.sendEmail(participant.get(), "Wasteless- Your Donation Status: " + donation.getDescription(), "Hello, \n\n There is a volunteer who has signed up to pick your donation! \n\n The volunteer's name is " +
                             volunteer.get().getName() + ". \n Their email is " + volunteer.get().getEmail() + ". \n Their phone number is " + volunteer.get().getPhone() + ". \n\n Please use this information to communicate with them about the donation." +
                             " \n\n\n Thanks, \n Wasteless Team");
-                    emailService.sendEmail(volunteer.get(), "Wasteless: The Donation You Chose to Pickup: " + donation.getDescription(), "Hello, \n\n Thank you for signing up to pick up a donation from the Wasteless App! \n\n The donor's name is " +
+                    emailService.sendEmail(volunteer.get(), "Wasteless- The Donation You Chose to Pickup: " + donation.getDescription(), "Hello, \n\n Thank you for signing up to pick up a donation from the Wasteless App! \n\n The donor's name is " +
                             participant.get().getName() + ". \n Their email is " + participant.get().getEmail() + ". \n Their phone number is " + participant.get().getPhone() + ". \n\n Please use this information to communicate with them about the donation." +
                             " \n\n\n Thanks, \n Wasteless Team");
                     donation.setVolunteerId(volunteerId);
@@ -207,8 +207,29 @@ public class DonationController {
         System.out.println(" donationId="+donationId);
         System.out.println(" volunteerId:"+volunteerId);
 
+
         return donationRepository.findById(donationId)
                 .map(donation -> {
+                    String donorMsg = "";
+                    String volunteerMsg = "";
+                    if(volunteerId != null) {
+                        if (donation.getDonorId().equals(volunteerId)) {
+                            donorMsg = "you have";
+                            volunteerMsg = "The donor has";
+                        } else {
+                            donorMsg = "the volunteer has";
+                            volunteerMsg = "You have";
+                        }
+                        Optional<Participant> participant = participantRepository.findById(new Long(donation.getDonorId()));
+                        Optional<Participant> volunteer = participantRepository.findById(new Long(donation.getVolunteerId()));
+                        emailService.sendEmail(participant.get(), "Wasteless- Canceling Your Donation: " +
+                                donation.getDescription(), "Hello, \n\n This is just a message to alert you that " + donorMsg + " cancelled this donation. This donation has now been put back in the " +
+                                "pickup list for another volunteer to sign up for. If you wish to delete this donation from the pickup list, please login to the app and click on the delete icon on your donation. We apologize for any inconvenience this may have caused. " +
+                                " \n\n\n Thanks, \n Wasteless Team");
+                        emailService.sendEmail(volunteer.get(), "Wasteless- The Donation You Chose to Pickup Has Been Cancelled: " + donation.getDescription(), "Hello, \n\n " + volunteerMsg + " cancelled this item from being picked up. " +
+                                " If you wish to pickup another donation, please login to the app and browse the \"Pickup\" page. We apologize for any inconvenience this may have caused." +
+                                " \n\n\n Thanks, \n Wasteless Team");
+                    }
                     donation.setVolunteerId(null);
                     donation.setStatus(Constants.DONATION_STATUS_AVALIABLE);
 
