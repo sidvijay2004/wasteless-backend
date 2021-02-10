@@ -276,8 +276,18 @@ public class DonationController {
 
     public ResponseEntity<?> deleteDonation(@PathVariable Long donationId, @RequestParam String volunteerId) {
 
+
         return donationRepository.findById(donationId)
                 .map(donation -> {
+                    if(donation.getVolunteerId() != null && !donation.getVolunteerId().isEmpty()) {
+                        Optional<Participant> volunteer = participantRepository.findById(new Long(donation.getVolunteerId()));
+
+                        emailService.sendEmail(volunteer.get(), "Wasteless- Deleted Donation: " +
+                                donation.getDescription(), "Hello, \n\n This is just a message to alert you that this donation (that you signed up to pick up) has been deleted by the donor. " +
+                                "We apologize for any inconvenience this may have caused. " +
+                                " \n\n\n Thanks, \n Wasteless Team");
+                    }
+
                     eventService.createEvent(new Long (donation.getDonorId()), donation, "deleteDonation");
                     donationRepository.delete(donation);
                     return ResponseEntity.ok().build();
